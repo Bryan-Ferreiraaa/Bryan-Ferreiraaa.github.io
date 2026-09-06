@@ -1,317 +1,1110 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="content-language" content="pt-br">
-	<meta name="description"
-		content="Acompanhe o número de inscritos de qualquer canal do YouTube em tempo real com uma interface personalizável">
-	<meta name="author" content="Jefferson Dantas">
-	<meta name="keywords" content="contador de inscritos, youtube, ao vivo, em tempo real">
-	<meta name="google-site-verification" content="g0GemjDttQ5qbIUvSPfISRFX6Z8FVoolN4LCdn4LjfA">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Facebook OpenGraph -->
-	<meta name="og:locale" content="pt_BR">
-	<meta name="og:title" content="Contador de inscritos para YouTube">
-	<meta name="og:site_name" content="GitHub">
-	<meta name="og:description"
-		content="Acompanhe o número de inscritos de qualquer canal do YouTube em tempo real com uma interface personalizável">
-	<meta name="og:type" content="website">
-	<meta name="og:url" content="https://josejefferson.github.io/contador-de-inscritos/">
-	<meta name="og:image" content="https://josejefferson.github.io/contador-de-inscritos/icons/background.png">
-	<meta name="og:image:type" content="image/png">
-	<meta name="og:image:width" content="1280">
-	<meta name="og:image:height" content="720">
+    <title>Bryan Ferreira — Desenvolvedor</title>
 
-	<!-- Twitter Cards -->
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Contador de inscritos para YouTube">
-	<meta name="twitter:description"
-		content="Acompanhe o número de inscritos de qualquer canal do YouTube em tempo real com uma interface personalizável">
-	<meta name="twitter:url" content="https://josejefferson.github.io/contador-de-inscritos/">
-	<meta name="twitter:image" content="https://josejefferson.github.io/contador-de-inscritos/icons/background.png">
+    <meta
+        name="description"
+        content="Bryan Ferreira — Desenvolvedor, tecnologia, IA e projetos open source."
+    >
 
-	<title>Contador de inscritos para YouTube</title>
-	<link rel="shortcut icon" href="favicon.png" type="image/png">
-	<link rel="manifest" href="manifest.json">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.7.95/css/materialdesignicons.min.css">
-	<link rel="stylesheet" href="css/index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 50% -10%, #25204b 0%, transparent 38%),
+                #07070b;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           FUNDO
+        ========================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: linear-gradient(to bottom, black, transparent 85%);
+            z-index: -1;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            min-height: 720px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 20px;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: #695bd7;
+            filter: blur(160px);
+            opacity: .16;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .glow.one {
+            top: -250px;
+            left: -150px;
+        }
+
+        .glow.two {
+            right: -200px;
+            bottom: -250px;
+            background: #c0294a;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(30px);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(135deg, #695bd7, #c0294a);
+
+            box-shadow:
+                0 0 40px rgba(105,91,215,.35);
+
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+
+            color: #cfcce8;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .badge span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #43e97b;
+            box-shadow: 0 0 12px #43e97b;
+        }
+
+        h1 {
+            font-size: clamp(52px, 9vw, 100px);
+            line-height: .95;
+            letter-spacing: -5px;
+
+            background: linear-gradient(
+                135deg,
+                #fff 20%,
+                #aaa3e9 60%,
+                #c0294a
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero h2 {
+            margin-top: 20px;
+            font-size: clamp(20px, 3vw, 30px);
+            color: #aaa6c4;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin: 25px auto 0;
+
+            color: #77748b;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 22px;
+            border-radius: 10px;
+
+            background: #695bd7;
+            border: 1px solid #8175e9;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: .25s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(105,91,215,.25);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,.04);
+            border-color: rgba(255,255,255,.1);
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        main {
+            max-width: 1150px;
+            margin: auto;
+            padding: 0 20px 100px;
+        }
+
+        section {
+            margin-top: 110px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title .small {
+            color: #695bd7;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .section-title h2 {
+            margin-top: 10px;
+            font-size: clamp(30px, 5vw, 45px);
+            letter-spacing: -1px;
+        }
+
+        .section-title p {
+            margin: 12px auto 0;
+            max-width: 600px;
+            color: #77748b;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           REDES
+        ========================= */
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .social-card {
+            padding: 25px 15px;
+            text-align: center;
+
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+
+            transition: .3s;
+        }
+
+        .social-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(105,91,215,.6);
+            background: rgba(105,91,215,.08);
+        }
+
+        .social-icon {
+            width: 55px;
+            height: 55px;
+            margin: auto auto 14px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,.06);
+
+            font-size: 24px;
+        }
+
+        .social-card strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .social-card small {
+            display: block;
+            margin-top: 5px;
+            color: #6f6c80;
+            font-size: 11px;
+        }
+
+        /* =========================
+           PROJETOS
+        ========================= */
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .project {
+            position: relative;
+            padding: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.06),
+                    rgba(255,255,255,.025)
+                );
+
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            transition: .3s;
+        }
+
+        .project::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            right: -100px;
+            top: -100px;
+
+            background: #695bd7;
+            filter: blur(90px);
+            opacity: .12;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+            border-color: rgba(105,91,215,.45);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .project h3 {
+            font-size: 20px;
+        }
+
+        .project h3 span {
+            font-size: 18px;
+        }
+
+        .project p {
+            color: #89869b;
+            line-height: 1.7;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .project ul {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .project li {
+            color: #aaa7b8;
+            font-size: 13px;
+        }
+
+        .project li::before {
+            content: "✓";
+            color: #695bd7;
+            margin-right: 8px;
+        }
+
+        .project-footer {
+            display: flex;
+            gap: 8px;
+            margin-top: 22px;
+        }
+
+        .tag {
+            padding: 6px 10px;
+            border-radius: 7px;
+
+            background: rgba(255,255,255,.05);
+            color: #77748b;
+
+            font-size: 10px;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .stats-card {
+            padding: 18px;
+
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+        }
+
+        .stats-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .streak {
+            margin-top: 18px;
+        }
+
+        /* =========================
+           GITHUB
+        ========================= */
+
+        .github-box {
+            padding: 45px;
+            text-align: center;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(105,91,215,.13),
+                    rgba(192,41,74,.08)
+                );
+
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .github-box h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .github-box p {
+            color: #89869b;
+            max-width: 550px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 70px 20px 40px;
+
+            border-top: 1px solid rgba(255,255,255,.06);
+
+            color: #5d5a6b;
+        }
+
+        footer strong {
+            color: #aaa6bb;
+        }
+
+        footer .hashtags {
+            margin: 20px auto;
+            max-width: 700px;
+
+            color: #695bd7;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        /* =========================
+           ANIMAÇÃO
+        ========================= */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: .7s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .social-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .projects,
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            header {
+                min-height: 650px;
+            }
+
+            h1 {
+                letter-spacing: -3px;
+            }
+
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .social-card:last-child {
+                grid-column: span 2;
+            }
+
+            .project {
+                padding: 22px;
+            }
+
+            .github-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-	<div class="text-right">
-		<a href="help" target="_blank" title="Ajuda" class="mdi mdi-help-circle mr-2 text-secondary" id="help"></a>
-	</div>
 
-	<div class="container my-3">
-		<div class="alert alert-dark alert-dismissible hidden mb-5 newSubCounter">
-			Quer uma contagem de inscritos precisa? Experimente o
-			<a href="https://josejefferson.github.io/contador-de-inscritos-preciso/" target="_blank" class="alert-link">
-				novo contador de inscritos</a> para o seu canal!
-			<button type="button" class="newSubCounterClose close" data-dismiss="alert">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
+<header>
 
-		<form action="counter.html" method="get" target="_blank">
-			<h1 class="text-center">Contador de inscritos</h1>
-			<i class="text-center d-block mb-4">Para YouTube</i>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
 
-			<div class="form-group">
-				<input type="text" class="form-control form-control-lg" name="findChan" id="findChan"
-					placeholder="Encontrar canal..." autocomplete="off" required>
-			</div>
+    <div class="hero">
 
-			<div class="text-md-center">
-				<span class="custom-control custom-radio d-md-inline-block mr-md-5">
-					<input type="radio" class="custom-control-input" name="findBy" id="findByName" value="name" checked>
-					<label class="custom-control-label" for="findByName">Nome do canal</label>
-				</span>
-				<span class="custom-control custom-radio d-md-inline-block mr-md-5">
-					<input type="radio" class="custom-control-input" name="findBy" id="findByUsername" value="username">
-					<label class="custom-control-label" for="findByUsername">Nome de usuário</label>
-				</span>
-				<span class="custom-control custom-radio d-md-inline-block">
-					<input type="radio" class="custom-control-input" name="findBy" id="findByID" value="id">
-					<label class="custom-control-label" for="findByID">ID do canal</label>
-				</span>
-			</div>
+        <div class="avatar">
+            BF
+        </div>
 
-			<hr>
+        <div class="badge">
+            <span></span>
+            Disponível para criar coisas incríveis
+        </div>
 
-			<div class="text-center">
-				<button type="submit" class="btn btn-success btn-lg" id="startCounter"><i class="mdi mdi-check-circle"></i>
-					Iniciar contador</button>
+        <h1>Bryan Ferreira</h1>
 
-				<button type="submit" class="btn btn-success btn-lg rounded-circle shadow" id="floatingStart"
-					style="display:none;"><i class="mdi mdi-check-circle"></i></button>
+        <h2>
+            DeveloperAI · IA · Tecnologia 🇧🇷
+        </h2>
 
-				<div class="collapse customization show">
-					<button type="button" class="btn btn-danger mt-2" data-toggle="collapse" data-target=".customization"><i
-							class="mdi mdi-format-paint"></i> Personalizar</button>
-				</div>
-			</div>
+        <p class="hero-description">
+            Desenvolvedor apaixonado por tecnologia, inteligência artificial
+            e criação de projetos para web. Transformando ideias em projetos
+            funcionais, simples e rápidos.
+        </p>
 
-			<div class="collapse border rounded p-3 customization mt-3">
-				<h2><i class="mdi mdi-format-paint"></i> Personalizar</h2>
-				<div class="form-row">
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6"><i class="mdi mdi-image-filter-hdr"></i> Tipo de fundo</label>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input bgType" name="bgType" id="bgTypeChanThumb"
-									value="chanThumb" checked>
-								<label class="custom-control-label" for="bgTypeChanThumb">Imagem do canal</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input bgType" name="bgType" id="bgTypeSolid" value="solid">
-								<label class="custom-control-label" for="bgTypeSolid">Cor sólida</label>
-								<input type="color" class="form-control" name="bgColor" id="bgColor" value="#000000">
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input bgType" name="bgType" id="bgTypeURL" value="url">
-								<label class="custom-control-label" for="bgTypeURL">URL</label>
-								<input type="url" class="form-control" name="bgURL" id="bgURL" placeholder="URL" autocomplete="off">
-							</div>
-						</div>
-					</div>
+        <div class="buttons">
 
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6" for="bgOpacity"><i class="mdi mdi-opacity"></i> Opacidade do fundo</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="bgOpacity" id="bgOpacity" min="0" max="100" step="1"
-										value="50">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>%</div>
-							</div>
-						</div>
+            <a
+                class="btn"
+                href="https://github.com/Bryan-Ferreiraaa"
+                target="_blank"
+            >
+                Ver meu GitHub
+            </a>
 
-						<div class="form-group">
-							<label class="h6" for="bgOpacity"><i class="mdi mdi-blur"></i> Desfoque do fundo</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="bgBlur" id="bgBlur" min="0" max="30" step="1"
-										value="15">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
+            <a
+                class="btn secondary"
+                href="#projetos"
+            >
+                Explorar projetos
+            </a>
 
-						<div class="form-group">
-							<label class="h6" for="vignette"><i class="mdi mdi-panorama-wide-angle"></i> Vinheta</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="vignette" id="vignette" min="0" max="150" step="1"
-										value="0">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        </div>
 
-				<hr>
+    </div>
 
-				<div class="form-row">
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6"><i class="mdi mdi-arrow-all"></i> Posição da imagem do canal</label>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input thumbPosition" name="thumbPosition"
-									id="thumbPositionTop" value="top" checked>
-								<label class="custom-control-label" for="thumbPositionTop">Topo</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input thumbPosition" name="thumbPosition"
-									id="thumbPositionLeft" value="left">
-								<label class="custom-control-label" for="thumbPositionLeft">Esquerda</label>
-							</div>
-						</div>
+</header>
 
-						<div class="form-group">
-							<label class="h6" for="thumbSize"><i class="mdi mdi-resize"></i> Tamanho da imagem do
-								canal</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="thumbSize" id="thumbSize" min="0" max="300" step="1"
-										value="200">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
-					</div>
 
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6"><i class="mdi mdi-shape"></i> Formato da imagem do canal</label>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input thumbRadius" name="thumbRadius" id="thumbRadiusCircle"
-									value="50" checked>
-								<label class="custom-control-label" for="thumbRadiusCircle">Círculo</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" class="custom-control-input thumbRadius" name="thumbRadius" id="thumbRadiusSquare"
-									value="5">
-								<label class="custom-control-label" for="thumbRadiusSquare">Quadrado</label>
-							</div>
-						</div>
+<main>
 
-						<div class="form-group">
-							<label class="h6" for="thumbMargin"><i class="mdi mdi-arrow-expand-vertical"></i> Margem da
-								imagem do canal</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="thumbMargin" id="thumbMargin" min="0" max="100"
-										step="1" value="10">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
-					</div>
-				</div>
+    <!-- REDES -->
 
-				<hr>
+    <section class="reveal">
 
-				<div class="form-row">
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6" for="findChan"><i class="mdi mdi-format-font"></i> Fonte do nome do canal</label>
-							<input type="text" class="form-control" name="nameFont" id="nameFont" placeholder="Fonte">
-						</div>
+        <div class="section-title">
 
-						<div class="form-group">
-							<label class="h6" for="nameSize"><i class="mdi mdi-resize"></i> Tamanho do nome do
-								canal</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="nameSize" id="nameSize" min="0" max="200" step="1"
-										value="50">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
+            <div class="small">
+                Conecte-se
+            </div>
 
-						<div class="form-group">
-							<label class="h6" for="counterSize"><i class="mdi mdi-resize"></i> Tamanho do contador de
-								inscritos</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="counterSize" id="counterSize" min="0" max="300"
-										step="1" value="120">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
+            <h2>Minhas Redes</h2>
 
-						<div class="form-group">
-							<label class="h6" for="counterMargin"><i class="mdi mdi-arrow-expand-vertical"></i> Margem
-								do contador de inscritos</label>
-							<div class="row input">
-								<div class="col-9">
-									<input type="range" class="custom-range" name="counterMargin" id="counterMargin" min="0" max="300"
-										step="1" value="100">
-								</div>
-								<div class="col-3"><span class="inputValue"></span>px</div>
-							</div>
-						</div>
-					</div>
+            <p>
+                Você também pode me encontrar em outras plataformas.
+            </p>
 
-					<div class="col-md-6 pr-md-5 sm-12">
-						<div class="form-group">
-							<label class="h6" for="findChan"><i class="mdi mdi-format-font"></i> Fonte do contador de
-								inscritos</label>
-							<input type="text" class="form-control" name="counterFont" id="counterFont" placeholder="Fonte">
-						</div>
+        </div>
 
-						<div class="form-group">
-							<label class="h6"><i class="mdi mdi-palette"></i> Cor do nome do canal</label>
-							<input type="color" class="form-control" name="nameColor" id="nameColor" value="#ffffff">
-						</div>
 
-						<div class="form-group">
-							<label class="h6"><i class="mdi mdi-palette"></i> Cor do contador de inscritos</label>
-							<input type="color" class="form-control" name="counterColor" id="counterColor" value="#ffffff">
-						</div>
+        <div class="social-grid">
 
-						<div class="form-group">
-							<label class="h6" for="findChan"><i class="mdi mdi-key"></i> Chave de API (opcional,
-								avançado)</label>
-							<input type="text" class="form-control" name="apiKey" id="apiKey" placeholder="Chave de API">
-							<small class="form-text text-muted">Deixe em branco se não souber do que se trata</small>
-						</div>
-					</div>
-				</div>
+            <a
+                class="social-card"
+                href="https://www.tiktok.com/"
+                target="_blank"
+            >
+                <div class="social-icon">♪</div>
+                <strong>TikTok</strong>
+                <small>@Bryan-Ferreiraaa</small>
+            </a>
 
-				<hr>
 
-				<div class="collapse customCSS show">
-					<button type="button" class="btn btn-warning mb-1" data-toggle="collapse" data-target=".customCSS"><i
-							class="mdi mdi-language-css3"></i> CSS
-						personalizado</button>
-				</div>
-				<div class="collapse customCSS">
-					<h6>CSS personalizado</h6>
-					<textarea class="form-control" name="customCSS" id="customCSS" rows="10"
-						placeholder="Insira o CSS aqui..."></textarea>
-				</div>
+            <a
+                class="social-card"
+                href="https://www.youtube.com/"
+                target="_blank"
+            >
+                <div class="social-icon">▶</div>
+                <strong>YouTube</strong>
+                <small>@Bryan-Ferreiraaa</small>
+            </a>
 
-				<button type="button" class="btn btn-info mt-1" onclick="applyPreset('desktop')"><i class="mdi mdi-cogs"></i>
-					Preset Desktop</button>
-				<button type="button" class="btn btn-info mt-1" onclick="applyPreset('mobile')"><i class="mdi mdi-cogs"></i>
-					Preset Mobile</button>
-			</div>
-		</form>
-	</div>
 
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script src="js/index.js"></script>
+            <a
+                class="social-card"
+                href="https://x.com/"
+                target="_blank"
+            >
+                <div class="social-icon">𝕏</div>
+                <strong>Twitter / X</strong>
+                <small>@Bryan-Ferreiraaa</small>
+            </a>
+
+
+            <a
+                class="social-card"
+                href="https://www.reddit.com/"
+                target="_blank"
+            >
+                <div class="social-icon">●</div>
+                <strong>Reddit</strong>
+                <small>u/Bryan-Ferreiraaa</small>
+            </a>
+
+
+            <a
+                class="social-card"
+                href="https://www.instagram.com/"
+                target="_blank"
+            >
+                <div class="social-icon">◎</div>
+                <strong>Instagram</strong>
+                <small>@Bryan-Ferreiraaa</small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROJETOS -->
+
+    <section id="projetos" class="reveal">
+
+        <div class="section-title">
+
+            <div class="small">
+                O que eu faço
+            </div>
+
+            <h2>Projetos Destacados 🚀</h2>
+
+            <p>
+                Alguns dos projetos que venho desenvolvendo e experimentando.
+            </p>
+
+        </div>
+
+
+        <div class="projects">
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        📈 Contador de Inscritos Estimado
+                    </h3>
+
+                    <span>01</span>
+
+                </div>
+
+                <p>
+                    Sistema para estimativa da contagem de inscritos
+                    em tempo real no YouTube.
+                </p>
+
+                <ul>
+                    <li>Fácil e rápido</li>
+                    <li>Responsivo para celular e computador</li>
+                    <li>API do YouTube</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">YouTube API</span>
+                    <span class="tag">Web</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/Bryan-Ferreiraaa/contador-de-inscritos-estimado"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        📈 Contador de Inscritos
+                    </h3>
+
+                    <span>02</span>
+
+                </div>
+
+                <p>
+                    Contador de inscritos utilizando a API v3 do YouTube,
+                    com atualização automática.
+                </p>
+
+                <ul>
+                    <li>API v3 atualizada</li>
+                    <li>Extremamente leve</li>
+                    <li>Busca inteligente de canais</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">API v3</span>
+                    <span class="tag">JavaScript</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/Bryan-Ferreiraaa/contador-de-inscritos"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        🟡 Contador Estimado BETA
+                    </h3>
+
+                    <span>03</span>
+
+                </div>
+
+                <p>
+                    Versão experimental com atualizações frequentes
+                    para testar melhorias no projeto principal.
+                </p>
+
+                <ul>
+                    <li>Testes experimentais</li>
+                    <li>Novas melhorias</li>
+                    <li>Desenvolvimento contínuo</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">BETA</span>
+                    <span class="tag">Experimental</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/Bryan-Ferreiraaa/contador-de-inscritos-estimado-antecipado-testes"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        🟡 Contador API v3 BETA
+                    </h3>
+
+                    <span>04</span>
+
+                </div>
+
+                <p>
+                    Projeto experimental baseado na API v3 do YouTube,
+                    focado em melhorias e novos recursos.
+                </p>
+
+                <ul>
+                    <li>Atualizações frequentes</li>
+                    <li>Novos recursos em testes</li>
+                    <li>Melhorias experimentais</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">API v3</span>
+                    <span class="tag">BETA</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/Bryan-Ferreiraaa/contador-de-inscritos-antecipado-testes"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        ☁️ PC-Cloud-V2
+                    </h3>
+
+                    <span>05</span>
+
+                </div>
+
+                <p>
+                    PC em nuvem com acesso remoto e streaming
+                    de alta qualidade.
+                </p>
+
+                <ul>
+                    <li>Acesso remoto</li>
+                    <li>Streaming de alta qualidade</li>
+                    <li>Configuração simplificada</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">Cloud</span>
+                    <span class="tag">Streaming</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/jephersonRD/PC-Cloud-V2"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="project">
+
+                <div class="project-header">
+
+                    <h3>
+                        🎮 ModerLauncher
+                    </h3>
+
+                    <span>06</span>
+
+                </div>
+
+                <p>
+                    Launcher para Minecraft Java Edition,
+                    com foco em simplicidade e personalização.
+                </p>
+
+                <ul>
+                    <li>Contas premium e offline</li>
+                    <li>Material Design</li>
+                    <li>Windows e Linux</li>
+                </ul>
+
+                <div class="project-footer">
+
+                    <span class="tag">Minecraft</span>
+                    <span class="tag">Launcher</span>
+
+                    <a
+                        class="tag"
+                        href="https://github.com/jephersonRD/ModerLauncher"
+                        target="_blank"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- GITHUB -->
+
+    <section class="reveal">
+
+        <div class="section-title">
+
+            <div class="small">
+                Open Source
+            </div>
+
+            <h2>Meu GitHub 📈</h2>
+
+            <p>
+                Acompanhe minhas contribuições, linguagens e atividade
+                no desenvolvimento de projetos.
+            </p>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stats-card">
+
+                <img
+                    src="https://github-readme-stats-eight-theta.vercel.app/api?username=Bryan-Ferreiraaa&show_icons=true&theme=algolia&include_all_commits=true&count_private=true"
+                    alt="Estatísticas do GitHub"
+                >
+
+            </div>
+
+
+            <div class="stats-card">
+
+                <img
+                    src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=Bryan-Ferreiraaa&layout=compact&langs_count=8&theme=algolia"
+                    alt="Linguagens mais utilizadas"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="stats-card streak">
+
+            <img
+                src="https://streak-stats.demolab.com/?user=Bryan-Ferreiraaa&theme=algolia&hide_border=true&border_radius=8&ring=c0294a&fire=c0294a&currStreakLabel=c0294a"
+                alt="GitHub Streak"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="reveal">
+
+        <div class="github-box">
+
+            <h2>Gostou do que viu? 🚀</h2>
+
+            <p>
+                Então dá uma olhada nos meus projetos no GitHub.
+                Quem sabe você encontra alguma coisa interessante por lá.
+            </p>
+
+            <div class="buttons">
+
+                <a
+                    class="btn"
+                    href="https://github.com/Bryan-Ferreiraaa"
+                    target="_blank"
+                >
+                    ⭐ Visitar GitHub
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <strong>
+        Bryan Ferreira
+    </strong>
+
+    <div class="hashtags">
+        #Bryan-Ferreiraaa · #DevBR · #ProgramadorBrasileiro ·
+        #Desenvolvedor · #Tecnologia · #Developer
+    </div>
+
+    <p>
+        © 2026 Bryan-Ferreiraaa · Desenvolvedor & Tecnologia 🇧🇷
+    </p>
+
+    <p style="margin-top:10px;font-size:11px;">
+        HTML · CSS · JavaScript · Desenvolvedor · Dev BR · Tecnologia
+    </p>
+
+</footer>
+
+
+<script>
+
+    /*
+     * Animação de entrada das seções
+     */
+
+    const elements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("active");
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+
+    elements.forEach(element => {
+        observer.observe(element);
+    });
+
+</script>
 
 </body>
-
 </html>
